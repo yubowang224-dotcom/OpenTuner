@@ -1,0 +1,420 @@
+{
+  "@@locale": "en",
+  "appTitle": "OpenTuner",
+  "guitar": "Guitar",
+  "piano": "Piano",
+  "explore": "Explore",
+  "metronome": "Metronome",
+  "settings": "Settings",
+  "guitarTitle": "Find your balance.",
+  "guitarSubtitle": "A quieter space for a better tuning experience.",
+  "pianoTitle": "Every note, considered.",
+  "pianoSubtitle": "A clear starting point for your piano.",
+  "exploreTitle": "Get to know your sound.",
+  "exploreSubtitle": "Hum, sing, or explore a steady note.",
+  "metronomeTitle": "Make room for rhythm.",
+  "metronomeSubtitle": "Set up your practice, one beat at a time.",
+  "settingsTitle": "Just the essentials.",
+  "settingsSubtitle": "Make OpenTuner feel like your instrument.",
+  "uiPreview": "UI preview",
+  "audioNotConnected": "Instrument detection planned",
+  "audioStageNotice": "Detection on this instrument page is not implemented yet. Use Explore for live microphone analysis.",
+  "waitingAudio": "Waiting for audio",
+  "uncertain": "No stable pitch",
+  "flat": "Flat",
+  "inTune": "In tune",
+  "sharp": "Sharp",
+  "centsUnit": "cents",
+  "target": "Target",
+  "detectedNote": "Detected note",
+  "demoNote": "Demo note",
+  "standardTuning": "Standard tuning",
+  "sixStrings": "6 strings · E A D G B E",
+  "targetOnly": "The guitar page supports seven six-string presets and plucked reference tones.",
+  "stringLabel": "String {number}",
+  "minimalMode": "Minimal mode",
+  "minimalDescription": "Keep the note, needle, and essential feedback.",
+  "normalMode": "Show details",
+  "details": "Measurement details",
+  "measuredFrequency": "Measured frequency",
+  "targetFrequency": "Target frequency",
+  "confidence": "Pitch confidence",
+  "notMeasured": "Not measured",
+  "demoTitle": "Try the needle",
+  "demoDescription": "Visual demonstration only. No microphone or measured pitch.",
+  "demoOn": "Demo · no audio",
+  "demoOff": "Exit demo",
+  "demoSlider": "Demonstration pitch offset",
+  "demoOffset": "Demo offset: {value} cents",
+  "gaugeSemantics": "Tuning gauge: {note}, {value}, {state}",
+  "pianoType": "Piano type",
+  "digitalPiano": "Digital piano",
+  "uprightPiano": "Upright piano",
+  "grandPiano": "Grand piano",
+  "pianoTarget": "Target note preview",
+  "pianoRangeNotice": "Select any of the 88 keys from A0 to C8.",
+  "electronicNotice": "Digital piano mode uses equal-temperament targets. Mechanical stretch is not applied.",
+  "professionalTitle": "Individual piano calibration",
+  "professionalNotice": "Not implemented. Partial analysis and a measured stretch curve are planned. Real-piano validation will be required.",
+  "planned": "Planned",
+  "microphoneTitle": "Microphone is not connected",
+  "microphoneNotice": "Live pitch, waveform, and spectrum will appear here after real audio capture is added. This screen does not request permission or record audio.",
+  "captureUnavailable": "Capture not available yet",
+  "waveform": "Waveform",
+  "spectrum": "Spectrum",
+  "realDataOnly": "Waiting for real samples",
+  "bpm": "BPM",
+  "tempo": "Tempo",
+  "tempoValue": "{value} beats per minute",
+  "slower": "Decrease tempo",
+  "faster": "Increase tempo",
+  "timeSignature": "Time signature",
+  "subdivision": "Subdivision",
+  "quarter": "Quarter notes",
+  "eighth": "Eighth notes",
+  "triplet": "Triplets",
+  "sixteenth": "Sixteenth notes",
+  "beatPreview": "Beat layout preview",
+  "metronomeNotice": "Audio-clock playback is available on Android. Start explicitly; leaving the page stops playback.",
+  "playbackUnavailable": "Audio playback not connected",
+  "language": "Language",
+  "followSystem": "Follow system",
+  "english": "English",
+  "chinese": "简体中文",
+  "appearance": "Appearance",
+  "lightTheme": "Light theme",
+  "sessionSettings": "Language and playback settings apply to this session. Theme, focus mode and A4 are saved on Android.",
+  "privacyTitle": "Your sound stays yours.",
+  "privacyDescription": "Microphone access starts only after you explicitly start measurement. Audio stays on this device without recordings or uploads. Private piano profiles may contain measured partial frequencies, quality, device metadata and modeled tuning targets. No ads or tracking SDKs.",
+  "about": "About OpenTuner",
+  "versionLabel": "Version 0.7.0 Beta 2 · Mechanical calibration remains Experimental",
+  "licenseLabel": "Open source · Apache License 2.0",
+  "availability": "Feature availability",
+  "availabilityDescription": "Explore and guitar retain the accepted general C++ tracker. Piano offers 88-key equal-temperament measurement and optional Experimental mechanical calibration: partial fitting, quality rejection and individually modeled targets within measured support. This is not real-piano or professional validation; outside support uses equal temperament.",
+  "referencePitch": "Reference pitch",
+  "referencePitchNotice": "Global A4 reference applies to every target and reference tone.",
+  "noPermission": "Microphone permission has not been requested",
+  "targetSemantics": "{label}, {note}",
+  "@stringLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "@tempoValue": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "@demoOffset": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@gaugeSemantics": {
+    "placeholders": {
+      "note": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "@targetSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "localAnalysis": "Local audio",
+  "micIdle": "Microphone stopped · start when ready",
+  "micStarting": "Requesting microphone / opening stream…",
+  "micRunning": "Microphone active · live analysis",
+  "micUnsupported": "Audio capture is not implemented on this platform",
+  "micDenied": "Microphone permission denied. You can try again.",
+  "micSettings": "Allow microphone access in Android app settings.",
+  "micRevoked": "Microphone permission was revoked. Capture stopped.",
+  "micBackground": "Capture stopped in background. Tap Start to resume.",
+  "micDeviceChanged": "Input device changed. Capture stopped; tap Start to reopen.",
+  "micSilenced": "Microphone muted or silenced by the system. Check privacy settings and other recording apps.",
+  "micInterrupted": "Audio stream interrupted. Tap Start to reopen.",
+  "micStalled": "No fresh audio arrived. Capture stopped; check the input device.",
+  "micError": "Could not start or read audio. Check permissions / competing apps and try again.",
+  "startCapture": "Start microphone",
+  "stopCapture": "Stop microphone",
+  "openAppSettings": "Open app settings",
+  "capturePrivacy": "Audio is processed locally, without uploading or saving raw recordings. Single-source estimate: start with a steady hum, about 50–2000 Hz. Complex sound may have no clear pitch.",
+  "signalLevel": "Digital level",
+  "algorithmScore": "Periodicity score",
+  "scoreNotice": "0–1 periodicity score, not correctness probability. Cents use the selected reference. Automatic reference uses ±55 cents hysteresis and brief boundary confirmation; raw/tracked Hz stay unchanged.",
+  "clippingWarning": "Clipping detected · move farther from the microphone",
+  "liveDetails": "Live waveform, spectrum & diagnostics",
+  "audioConfiguration": "Actual stream",
+  "rawFrequency": "Raw candidate",
+  "bufferInfo": "Burst / capacity",
+  "framesUnit": "frames",
+  "droppedSamples": "Dropped samples",
+  "inputPreset": "Input preset",
+  "processingUnknown": "Device AGC / noise suppression / echo processing: unknown. A requested input preset does not prove that all processing is disabled.",
+  "normalizedPcm": "PCM amplitude −1…+1",
+  "spectrumNotice": "Hann window · one-sided peak amplitude per FFT bin in dBFS; not calibrated sound pressure. Off-bin peaks leak into adjacent bins.",
+  "openSourceLicenses": "Open-source licenses",
+  "noClearPitch": "No clear pitch",
+  "playReference": "Play reference · 3 s",
+  "stopReference": "Stop reference",
+  "referenceUnsupported": "Reference playback is not implemented on this platform.",
+  "referenceError": "Playback unavailable. Check audio output / competing apps.",
+  "referenceSafety": "Reference playback stops microphone measurement. After playback, start tuning or Explore manually; use low media volume.",
+  "trackedFrequency": "Tracked frequency",
+  "noiseFloor": "Noise floor / level margin",
+  "spectralFeatures": "Centroid / harmonic consistency",
+  "trackingFeatures": "Candidates / tracker state",
+  "referenceAudio": "Reference tone",
+  "automaticReference": "Automatic reference",
+  "lockedReference": "Locked reference",
+  "lockReference": "Lock {note}",
+  "unlockReference": "Unlock {note}",
+  "lockReferenceNotice": "Locks the reference, never the measured pitch. Silence stays invalid. Stop, background or leaving Explore resets to automatic.",
+  "switchingReference": "Changing reference…",
+  "flatOutsideRange": "← Flat · outside dial range",
+  "sharpOutsideRange": "Sharp · outside dial range →",
+  "referenceGaugeSemantics": "Reference {reference}, detected {detected}, {cents}, {state}",
+  "@lockReference": {
+    "placeholders": {
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "@unlockReference": {
+    "placeholders": {
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "@referenceGaugeSemantics": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      },
+      "detected": {
+        "type": "String"
+      },
+      "cents": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "guitarLiveSubtitle": "Seven six-string presets · live microphone tuning.",
+  "manualTarget": "Manual string",
+  "autoTarget": "Auto match",
+  "guitarAmbiguous": "Ambiguous target: select a string manually.",
+  "guitarOutside": "Outside the auto range. Select a string manually.",
+  "guitarReferenceSafety": "Reference playback stops measurement. After it ends, wait briefly and start the microphone manually. Use a separate source to check tuning.",
+  "guitarAutoNotice": "Auto matches absolute pitch within ±150 cents of the selected preset; distances within 25 cents are ambiguous. A new string needs two fresh results. Harmonics may match another string; select manually when needed.",
+  "metronomeLiveSubtitle": "Sample-clock rhythm, with clear accents.",
+  "metronomeUnsupported": "Audio playback is not implemented on this platform.",
+  "metronomePlaying": "Playing · native audio clock",
+  "metronomeStarting": "Opening audio output…",
+  "metronomeStopped": "Stopped",
+  "metronomeInterrupted": "Playback interrupted or failed. Check audio output, then start again.",
+  "quarterBpm": "Quarter-note BPM",
+  "metroAccent": "Accents (6/8: 3+3)",
+  "metronomePending": "Change applies at the next subdivision; bar restarts.",
+  "startMetronome": "Start metronome",
+  "stopMetronome": "Stop metronome",
+  "tapQuarter": "Tap quarter-note tempo",
+  "subdivisionsPerPulse": "Subdivisions per notated beat",
+  "metronomeClockNotice": "BPM and Tap always count quarter notes. 6/8 has six eighth-note pulses, grouped 3+3 (two pulses per quarter). Subdivisions split each pulse. Changes apply on the next subdivision and restart the bar. Visuals show submitted audio samples, with polling and unknown speaker latency. Leaving this page, backgrounding or audio interruption stops playback; restart manually.",
+  "metroBeat": "Beat {beat}",
+  "completionNoDevice": "Device checks not performed; development continues.",
+  "@metroBeat": {
+    "placeholders": {
+      "beat": {
+        "type": "int"
+      }
+    }
+  },
+  "nativeAudio": "Native audio",
+  "guitarConfirming": "Confirming guitar target…",
+  "startGuitar": "Start tuning",
+  "stopGuitar": "Stop tuning",
+  "switchTool": "Switch tool",
+  "exitMinimal": "Exit focus",
+  "darkTheme": "Dark",
+  "preferencesFailed": "Appearance could not be loaded or saved. Changes apply for this session; retry by choosing again.",
+  "preferencesSessionOnly": "This preview keeps preferences for this session only. Android saves theme, focus mode and A4 locally.",
+  "preferencesSaving": "Saving appearance on this device…",
+  "preferencesSaved": "Theme, focus mode and A4 reference are saved on this device. Language and playback settings are session-only.",
+  "sampledPcm": "Display-filtered PCM · amplitude FS · time ms (auto vertical scale)",
+  "envelopePcm": "Legacy min/max envelope · FS",
+  "waveTriggered": "Aligned to an actual rising crossing; not a synthesized waveform.",
+  "waveFree": "Free-running PCM window; no reliable trigger.",
+  "waveTiming": "Audio sample clock · start/end and interval",
+  "guitarPreset": "Tuning preset",
+  "presetDropD": "Drop D · DADGBE",
+  "presetDStandard": "D Standard · DGCFAD",
+  "presetHalfDown": "Half-Step Down · Eb Ab Db Gb Bb Eb",
+  "presetDadgad": "DADGAD",
+  "presetOpenD": "Open D · DADF#AD",
+  "presetOpenG": "Open G · DGDGBD",
+  "presetRestart": "Preset changed. Measurement stopped; start again for a fresh reading.",
+  "guitarVoice": "Plucked guitar · original synthesis",
+  "synthVolume": "Synth volume {percent}%",
+  "@synthVolume": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "synthVolumeNotice": "App synth level only; changing it stops the tone. Tap play again. System media volume is separate.",
+  "metroVolumeNotice": "Adjust App click volume during playback without restarting the beat. System media volume is separate.",
+  "acknowledgements": "Acknowledgements",
+  "acknowledgementsBody": "OpenTuner began as an open-source course project for Data Analysis and Feature Extraction at Harbin Institute of Technology. Inspired by teacher Zhang Miao’s “顶级原则” and the idea of open-source sharing, the author created OpenTuner. This software is free to use, with a commitment to releasing all source code. Guided by the communist ideal of serving everyone, the author hopes to make a modest contribution.",
+  "acknowledgementsAttribution": "This is a personal course project, not an official publication or endorsement by the university or teacher. These statements reflect the author’s views.",
+  "sourcePublicationPending": "Source repository:\nhttps://github.com/yubowang224-dotcom/OpenTuner",
+  "referenceSetting": "Global reference pitch",
+  "referenceInvalid": "Enter A4 from 400 to 480 Hz.",
+  "applyReference": "Apply A4",
+  "referenceCalibrationNotice": "Changing A4 stops old measurement and reference playback. This sets musical pitch, not microphone sample-clock calibration.",
+  "pianoProfiles": "Local piano profiles",
+  "profileReady": "Local profiles ready.",
+  "profileUnsupported": "Profile storage is not implemented on this platform.",
+  "profileUnavailable": "Profile storage failed. Reload to retry; existing files are not overwritten.",
+  "profileCorrupt": "Profile data is damaged and no usable backup was read. Writes are blocked.",
+  "profileSchema": "This profile version is unsupported. No downgrade or overwrite is allowed.",
+  "profileConflict": "Profile changed elsewhere or overwrite was not confirmed. Reload first.",
+  "profileInvalid": "Check the name and fields; duplicate names are not allowed.",
+  "profileRecovered": "A valid older backup was read. Restore it before editing; recent changes may be missing.",
+  "profileDataNotice": "Stores only name, piano type, A4, selected key and UTC dates on this device. No raw audio or professional stretch data.",
+  "profileMatches": "Current settings match the selected profile.",
+  "profileModified": "Current settings differ from the selected profile; changes are not saved.",
+  "profileBusy": "Reading or saving local profiles…",
+  "profileName": "Piano name",
+  "profileCreate": "Save as new profile",
+  "profileReload": "Reload profiles",
+  "profileRecover": "Restore backup",
+  "profileConfirmUpdate": "Allow replacing the selected profile with current settings",
+  "profileUpdate": "Update selected profile",
+  "pianoLiveSubtitle": "88 keys · equal-temperament pitch measurement.",
+  "pianoMechanicalNotice": "Current mode is basic equal temperament, not individualized tuning. Experimental measured calibration is available below; no real-piano validation.",
+  "pianoManualNotice": "Select the actual key manually. Automatic key switching is not enabled.",
+  "pianoLowest": "Lowest · A0",
+  "pianoHighest": "Highest · C8",
+  "pianoReferenceSafety": "Sine reference · microphone paused. Restart measurement manually after playback.",
+  "pianoAnalysisNotice": "Piano mode observes about 180 ms of audio and needs an input rate of at least 16 kHz. Weak/mixed/inharmonic sounds may remain uncertain. Raw and tracked frequency are separate; the score is not a correctness probability.",
+  "pianoKeyNumber": "Key {number} / 88",
+  "@pianoKeyNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "pianoOctave": "Octave {number}",
+  "@pianoOctave": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "profileCapacity": "Capacity reached: up to 64 profiles and 1 MiB total. Existing data is intact; reduce saved measurements.",
+  "calTitle": "Mechanical piano · Experimental",
+  "calSubtitle": "Measure stable partials, review quality and model a bounded stretch range.",
+  "calExperimental": "Experimental, synthetic validation only. No real-piano/professional tuning certification. Mechanical work requires an experienced person.",
+  "calNeedProfile": "Save/select a mechanical-piano profile matching the current type and A4 first.",
+  "calOpen": "Measure partials / manage calibration",
+  "calTake": "Accept this stable sample",
+  "calRemove": "Remove this key’s sample",
+  "calUndo": "Undo sample change",
+  "calSave": "Save draft (replaces this profile’s calibration)",
+  "calSaved": "Saved on this device.",
+  "calUnsaved": "Draft changes are not saved.",
+  "calGenerate": "Generate stretch targets",
+  "calApply": "Apply saved stretch targets",
+  "calDisable": "Return to equal temperament",
+  "calInsufficient": "Need at least 5 valid keys including A4, both sides of A4, a span of 36 semitones and gaps no greater than an octave. No extrapolation.",
+  "calAssociationChanged": "Profile, A4, type or page changed. Sampling stopped; close and reopen this workflow.",
+  "calDataNotice": "Stores measured partial frequencies, fit/quality, source metadata and modeled targets locally, without raw recordings. Save explicitly before leaving; changing samples invalidates the curve.",
+  "calSamplingNotice": "Play one selected key and let it settle. 750 ms windows / 100 ms steps; four consistent frames are required. Weak/ambiguous/unresolved multi-string sounds may not be reliable.",
+  "calFirstObserved": "Order 1 observed; actual peak Hz is used for the live deviation.",
+  "calFirstInferred": "Order 1 not observed. First-partial Hz is inferred by the string model, not directly measured.",
+  "calIdeal": "Ideal-string parameter",
+  "calModelFirst": "Fitted first partial",
+  "calObservedFirst": "Observed first partial",
+  "calBFit": "Inharmonicity B",
+  "calResidual": "Fit RMS residual (cents)",
+  "calSensitivity": "B sensitivity proxy",
+  "calExplained": "Explained peak-power fraction",
+  "calStable": "Consistent frame count",
+  "calPartialOrders": "Observed orders",
+  "calCurveRange": "Supported modeled range: {low}–{high}. Outside this range uses ET.",
+  "calBMeasured": "B measured",
+  "calBInterpolated": "B interpolated",
+  "calTargetModel": "Target is modeled, not a direct measurement.",
+  "calOutside": "Outside the calibrated range · ET target / ET analyzer",
+  "calActive": "Experimental stretch targets active",
+  "calTargets": "Inspect target frequencies",
+  "calModelNotice": "Weighted 2:1 / 4:2 octave and 4:1 double-octave partial matching, with weak ET/neighbor regularization. A4 anchors the first partial. Weights are engineering assumptions, not a verified auditory optimum.",
+  "calError": "Cannot generate/apply these targets. Review samples, support range and saved profile.",
+  "calStoredIncompatible": "An older calibration is retained but incompatible with current A4/type. It is inactive; saving a new draft replaces it.",
+  "calSourceMic": "Android microphone entry (not authenticated acoustic proof)",
+  "calSourceSynthetic": "Synthetic host test fixture · not phone",
+  "calReason0": "Stable partial sample is ready.",
+  "calReason1": "Confirming several consistent frames…",
+  "calReason2": "No measurable signal.",
+  "calReason3": "Clipping · reduce level / move farther away.",
+  "calReason4": "Too few reliable partials (at least four required).",
+  "calReason5": "Peaks do not support the selected key/string model.",
+  "calReason6": "Partial orders or model are ambiguous. Remeasure.",
+  "calReason7": "Multiple strong peaks near a partial · possible multi-string interference.",
+  "calReason8": "Sound is not stable yet.",
+  "calReason9": "Available input bandwidth cannot support enough partials.",
+  "calReason10": "B is not identifiable with sufficient sensitivity.",
+  "calCurveCaption": "ET offset (cents) · dots: measured B; line: modeled targets",
+  "@calCurveRange": {
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "calFitScore": "Heuristic partial-fit score",
+  "calFitScoreNotice": "Explained peak power × exp(−RMS residual / 2). This is not a calibrated correctness probability.",
+  "calLiveNotice": "Experimental first-partial measurement: 750 ms windows / 100 ms steps, four consistent frames; slower than ET mode.",
+  "calSelectedKey": "Selected target key",
+  "calNearestEt": "Nearest ET note (measured)",
+  "calIdentityNotice": "The selected key is a user choice; the nearest ET note may differ for a stretched target. Frequency alone cannot prove physical key identity.",
+  "calPianoSubtitle": "Individual modeled stretch · Experimental",
+  "calUseHints": "Use historical model search centers",
+  "calHintsNotice": "Search hints only, not valid tuning targets. Choose this explicitly to remeasure an already stretched key. New samples invalidate the old curve; regenerate before applying.",
+  "calHintUnavailable": "No historical center for this key; sampling uses the ET association window.",
+  "calAssociationCenter": "Current association center",
+  "pauseMetronome": "Pause metronome",
+  "resumeMetronome": "Resume metronome",
+  "metronomePaused": "Paused · position retained",
+  "metronomeTransition": "Changing playback state…",
+  "metronomeTransportNotice": "Pause retains the beat and remaining interval after a short fade. Resume continues there. Stop resets the position; Start begins on beat 1. Paused playback stays exclusive; leaving or backgrounding stops it."
+}
