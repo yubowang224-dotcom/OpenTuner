@@ -1,0 +1,8 @@
+{
+  "commit": "f72db465e5599af22afefa6619ba27d672869578",
+  "source_sha256": {
+    "native/include/opentune/analyzer.h": "3bd6db51f15252f50b365a155c09d8bcbade7c978461803ff4961c07025a7bb7",
+    "native/src/analyzer.cpp": "e0d6f068fb95e69a16a9a664b33cf2affd742264222e5a160fb7aaf4436f2436"
+  },
+  "adapter": "namespace/include rename; expose existing qualifiedCandidate as frameQualified. Algorithm and thresholds unchanged. Test-only, never linked into Android."
+}
