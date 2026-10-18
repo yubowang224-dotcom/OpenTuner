@@ -1,15 +1,11 @@
 # Contributing
 
-Stage 1 provides the Flutter UI; audio is not implemented. Start with the requirements, architecture and latest stage report in `docs/`.
+OpenTuner is a Flutter/C++ Android tuner. Read the architecture, algorithms and validation documentation in docs/ before changing audio behavior. Use the pinned toolchain and lockfile described in README and docs/windows-setup.zh-CN.md.
 
-Use Flutter 3.47.5 (Dart 3.13.4), JDK 21, Android SDK 36 and the pinned lockfile. Run `flutter pub get --enforce-lockfile`, `flutter gen-l10n`, `dart format --output=none --set-exit-if-changed lib test tools/capture_preview.dart`, `flutter analyze`, `flutter test`, and an Android Debug build. On this Windows machine, activate the existing toolchain with `tools/activate.ps1`. `tools/build-debug.ps1` can take a local proxy host/port without writing global Gradle configuration.
+Run dependency resolution, localization generation, Dart formatting, Flutter analysis/tests, CMake/CTest and an Android build for relevant changes. Record commands, tool versions, input conditions, coverage, rejected frames, errors and timing. Do not remove difficult conditions or relax criteria after observing a failure. Host timing and synthetic accuracy are not phone acoustic measurements.
 
-Edit both ARB files, regenerate and commit `lib/l10n/generated/`. The CI workflow has been authored but has not run remotely. Screenshot rendering uses a Windows font locally and never redistributes that font; see `tools/capture_preview.dart` and the stage report.
+Keep real-time audio callbacks bounded and free of allocation, locks, I/O, FFT and JNI/UI calls. Test actual production analyzers, not alternate test-only implementations. Handle lifecycle, stale sessions, no-signal states, small screens and both centralized language resources.
 
-Use small reviewable changes. Record exact commands, tool versions and test results. Pitch tests must include rejected/invalid frames, octave errors, latency and noise rejection, not just errors on accepted frames. Keep failing evidence; do not loosen a criterion after observing a failure to call it a pass.
+Use small reviewable changes. New dependencies need source, version, license and compatibility review. Recordings require documented redistribution rights. Never commit user recordings/profiles, credentials, signing material, machine configuration or build binaries. Screenshot tools may use an installed font locally; do not redistribute that font.
 
-Do not add recordings without documented redistribution rights and source attribution. Do not commit raw user audio, credentials, keystores or binaries. New dependencies require a version, source, license and compatibility review.
-
-Use English and Simplified Chinese centralized resources for user-facing text. Include no-signal, permission-denial, lifecycle and small-screen behavior when adding UI/audio features.
-
-Before Android release, complete real-device checks and license/manifest/signing review. No external publishing is authorized by this document.
+Mechanical-piano calibration remains Experimental until independent real-piano validation. Preserve distinctions between observations, interpolation and model predictions. When reporting a bug, provide version/device/actual sample rate and reproducible steps, with personal names and device serial numbers removed.
