@@ -1,0 +1,27 @@
+name: opentune_tuner
+description: Open-source guitar and piano tuner with real-time pitch analysis and metronome.
+publish_to: 'none'
+version: 0.7.0-beta.2+5001
+
+environment:
+  sdk: ^3.13.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  assets:
+    - assets/branding/OpenTuner-icon-master.png
+    - native/third_party/oboe/LICENSE
+    - third_party/licenses/ndk-llvm-notice.txt
+  generate: true
+  uses-material-design: true
