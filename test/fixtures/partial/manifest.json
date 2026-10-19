@@ -1,0 +1,9 @@
+{
+  "kind": "Original host synthetic stiff-string PCM, production Analyzer and ABI4 serializer; not Android/real piano",
+  "sources_lf_sha256": {
+    "native/src/partial_analyzer.cpp": "f9a72210386d8bca585a0e2e55d5dea7eae0eedd8a08c74dc8f66ccaf26f27d7",
+    "native/include/opentune/partial_analyzer.h": "fe34e4419434beac34b1f35e7b96cc5c296a73edac7e8c921a9d2f2085c1614e",
+    "native/tests/partial_tests.cpp": "c3e49c28d59f3c4579415e2b1ca60e3e7cd6207e97ba248a6142b7684a68ea1c",
+    "native/tests/partial_fixture.h": "74c0d87a66399d08c39dd6fd63f2213993708be3ed2fbcdada7bc4d316fcf1d6"
+  }
+}
