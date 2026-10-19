@@ -6,12 +6,14 @@
 
 ## 下载安装包
 
-**安装包尚未发布。** 请查看 [GitHub Releases](https://github.com/yubowang224-dotcom/OpenTuner/releases)。当前版本为 **0.7.0-beta.2 / versionCode 5001**，支持 **Android 7 / API 24 及以上**。
+**Android Beta 0.7.0-beta.2 已发布，versionCode 5001，支持 Android 7 / API 24 及以上。**
 
-- **普通 64 位 Android 手机：推荐 arm64-v8a APK。**
-- **不确定架构：选择 universal 通用 APK。**
-- armeabi-v7a 适用于相应 32 位设备，x86_64 适用于相应架构设备或模拟器。
+- **[下载 arm64-v8a APK（推荐普通 64 位 Android 手机使用）](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/OpenTuner-0.7.0-beta.2-arm64-v8a.apk)**
+- **[下载 universal 通用 APK（不确定架构时选此项）](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/OpenTuner-0.7.0-beta.2-universal.apk)**
+- armeabi-v7a 适用于相应 32 位设备，x86_64 适用于相应架构设备或模拟器；请在发布页选择对应 APK。
 - 已安装旧 Debug 测试版：**先不要卸载**。正式证书不同，不能直接覆盖；当前没有档案导出/导入入口。[安装指南](docs/install-release.zh-CN.md) · [迁移说明](docs/debug-to-release-migration.zh-CN.md)。
+
+[全部安装包及发布说明](https://github.com/yubowang224-dotcom/OpenTuner/releases/tag/v0.7.0-beta.2) · [SHA-256 校验和](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/SHA256SUMS.txt)
 
 ## 功能
 

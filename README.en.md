@@ -6,12 +6,14 @@ A free, open-source Android guitar and piano tuner with local real-time pitch an
 
 ## Download the APK
 
-**Packages have not been published yet.** See [GitHub Releases](https://github.com/yubowang224-dotcom/OpenTuner/releases). Current version: **0.7.0-beta.2 / versionCode 5001**, **Android 7 / API 24+**.
+**Android Beta 0.7.0-beta.2 / versionCode 5001 is available. Android 7 / API 24+ is required.**
 
-- **arm64-v8a is recommended for typical 64-bit Android phones.**
-- **Choose universal if unsure of the architecture.**
-- armeabi-v7a is for compatible 32-bit devices; x86_64 is for corresponding devices or emulators.
+- **[Download arm64-v8a — recommended for typical 64-bit Android phones](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/OpenTuner-0.7.0-beta.2-arm64-v8a.apk)**
+- **[Download universal — choose this if unsure of the architecture](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/OpenTuner-0.7.0-beta.2-universal.apk)**
+- armeabi-v7a is for compatible 32-bit devices; x86_64 is for corresponding devices or emulators. Find these APKs on the release page.
 - **Do not uninstall an existing Debug app first.** Its certificate differs, so direct replacement is blocked. There is currently no user-facing profile export/import. [Installation](docs/install-release.zh-CN.md) · [Migration](docs/debug-to-release-migration.zh-CN.md).
+
+[All APKs and release notes](https://github.com/yubowang224-dotcom/OpenTuner/releases/tag/v0.7.0-beta.2) · [SHA-256 checksums](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/SHA256SUMS.txt)
 
 ## Features
 
