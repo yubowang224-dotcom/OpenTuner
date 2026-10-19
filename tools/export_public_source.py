@@ -34,6 +34,9 @@ def public_file(name):
   return name.removeprefix('docs/evaluation-stage25/') not in {'cpu.json','environment.json','profile.json','regression-process.json','manifest.json'}
  if name.startswith('docs/evidence/'): return name.removeprefix('docs/evidence/') in public_evidence
  if name.startswith('docs/screenshots/'): return name.removeprefix('docs/screenshots/') in public_screenshots
+ if name.startswith('docs/formulas/'):
+  item=name.removeprefix('docs/formulas/')
+  return item in {'source.json','README.md','FONT-LICENSE.txt'} or bool(re.fullmatch(r'[a-z][a-z0-9-]+\.svg',item))
  if name.startswith('docs/'): return name.removeprefix('docs/') in public_docs
  return True
 def public_document(name, data):
