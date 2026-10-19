@@ -30,11 +30,3 @@ P95 and SD above are the **worst individual condition** in each row, not pooled 
 | Stage2 | 100 / 140 | 100 | 60 |
 
 All inputs here are synthetic. Loss timing includes partial windows after silence; internal tracker expiry is 200 ms. Phone latency and CPU are unmeasured.
-
-| Full host pipeline | CPU seconds / 234 s PCM | One-core audio-time equivalent % | Frame compute P50 / P95 ms |
-|---|---|---|---|
-| A_raw | 6.406250 | 2.738 | 0.568 / 0.785 |
-| B_fixed | 6.421875 | 2.744 | 0.573 / 0.795 |
-| C_adaptive | 6.765625 | 2.891 | 0.581 / 0.803 |
-
-A/B include the unchanged frozen Analyzer (its old tracker still executes, although A/B use frame observations). B reruns that frontend independently and includes fixed EMA cost. C uses production features/tracking. This is one sequential host run, not phone CPU or statistical performance certification. Shared-tracker/CSV overhead is recorded separately.
