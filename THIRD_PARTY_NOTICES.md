@@ -30,3 +30,7 @@ These texts were copied from the actual local SDK/pub package licenses; line end
 Before release, review native shared libraries, notices and any new assets again. Development tools retain their own licenses and are installed outside this repository. This repository's Apache-2.0 license does not relicense third-party components. UI screenshot rendering used a local Windows font without copying that font into source or APK.
 
 No real instrument sample assets have been added. Public access to a recording does not by itself authorize redistribution.
+
+## Documentation formulas
+
+Formula SVGs in docs/formulas use STIX glyph outlines rendered by Matplotlib mathtext. The STIX font license is retained in [docs/formulas/FONT-LICENSE.txt](docs/formulas/FONT-LICENSE.txt). No font binary or external TeX runtime is bundled. This documentation resource does not add an App runtime dependency.
