@@ -1,0 +1,14 @@
+{
+  "source": "native/tests/waveform_tests.cpp and production WaveformDisplay/Analyzer",
+  "kind": "original synthetic signals, not microphone recordings",
+  "sample_rate": 48000,
+  "input_ms": 80,
+  "display_ms": 20,
+  "trigger_search_ms": 20,
+  "sha256": {
+    "sine440.json": "5ca1170f9c35647f52e9f351546037783d4897a5708b51cfb96a375fc77dac07",
+    "dual.json": "3d4e999b6b5dfc9b819354970cb5542836eae85eb66fe0c136abd46668f95d56",
+    "silence.json": "5d914c3c1a4070edc87c368c28d90f3d06b1682c947f5c7f591707b05486d82a",
+    "noise.json": "1bbb5b386ecec15be77ab9adf3071ba8e7de54979a329e137545086c676bbb21"
+  }
+}
