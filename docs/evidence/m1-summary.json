@@ -5,7 +5,6 @@
   "median_cents": 0.000136365022313305,
   "p95_cents": 0.00160170541602424,
   "octave_errors": 0,
-  "p95_compute_ms": 0.5967,
   "invalid_frames": 228,
   "false_valid": 0,
   "kind": "Original synthetic signals, Windows host; not Android SPL/loudness/latency",

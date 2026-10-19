@@ -1,0 +1,224 @@
+{
+  "quick": 0,
+  "conditions": 240,
+  "steady": 960,
+  "ready": 960,
+  "b_relative_median": 1.61674095177252e-06,
+  "b_relative_p95": 0.0058999860441288,
+  "b_absolute_p95": 4.07105453281535e-07,
+  "first_cents_p95": 0.0175708686222073,
+  "evidence": "Original synthetic host PCM only; NOT a phone, recording or professional piano validation",
+  "all_frames": 1920,
+  "all_ready": 1200,
+  "steady_denominator": 960,
+  "steady_rejected": 0,
+  "per_signal": {
+    "full": {
+      "frames": 240,
+      "ready": 240,
+      "first_cents_p95": 0.00035276362339496724,
+      "b_relative_p95": 4.2816290246605604e-05
+    },
+    "weak_first": {
+      "frames": 240,
+      "ready": 240,
+      "first_cents_p95": 0.00021386677954066146,
+      "b_relative_p95": 1.885415763003273e-05
+    },
+    "missing_first_fourth": {
+      "frames": 240,
+      "ready": 240,
+      "first_cents_p95": 0.00017232085621286792,
+      "b_relative_p95": 1.4539353673237443e-05
+    },
+    "perturbed_partials": {
+      "frames": 240,
+      "ready": 240,
+      "first_cents_p95": 0.020317787847115427,
+      "b_relative_p95": 0.006066458346778103
+    }
+  },
+  "extensions": {
+    "boundary": {
+      "conditions": 8,
+      "frames": 32,
+      "ready": 24,
+      "max_cents_error": 0.0059998,
+      "must_reject": false
+    },
+    "clipped": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "curve_scope": {
+      "conditions": 8,
+      "frames": 32,
+      "ready": 32,
+      "max_cents_error": 0.000720603,
+      "must_reject": false
+    },
+    "detuned": {
+      "conditions": 24,
+      "frames": 96,
+      "ready": 96,
+      "max_cents_error": 0.000656042,
+      "must_reject": false
+    },
+    "even_only": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "glide200cps": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "irregular": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "noise": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "resolved_dual24c": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "silence": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "snr10": {
+      "conditions": 6,
+      "frames": 24,
+      "ready": 24,
+      "max_cents_error": 0.0773829,
+      "must_reject": false
+    },
+    "snr20": {
+      "conditions": 6,
+      "frames": 24,
+      "ready": 24,
+      "max_cents_error": 0.0242057,
+      "must_reject": false
+    },
+    "stale_curve_center": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "two_peaks": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "unresolved_dual3c": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": false
+    },
+    "wrong_key": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    },
+    "wrong_octave": {
+      "conditions": 2,
+      "frames": 8,
+      "ready": 0,
+      "max_cents_error": null,
+      "must_reject": true
+    }
+  },
+  "response": [
+    {
+      "rate": "44100",
+      "first_ready_ms": "1050",
+      "stop_invalid_ms": "250",
+      "return_ready_ms": "350"
+    },
+    {
+      "rate": "48000",
+      "first_ready_ms": "1050",
+      "stop_invalid_ms": "250",
+      "return_ready_ms": "350"
+    }
+  ],
+  "curves": {
+    "guide": {
+      "source": "production native synthetic measurements, not a phone",
+      "keys": 61,
+      "low": 33,
+      "high": 93,
+      "objective": 128.66325332018408,
+      "et_objective": 343.0778986079886,
+      "low_cents": -10.550661040947594,
+      "high_cents": 1.3751822561529177
+    },
+    "strong": {
+      "source": "production native synthetic measurements, not a phone",
+      "keys": 61,
+      "low": 33,
+      "high": 93,
+      "objective": 8929.071966093998,
+      "et_objective": 31626.48621365221,
+      "low_cents": -78.8780111727414,
+      "high_cents": 52.91423841258165
+    }
+  },
+  "curve_loop": {
+    "conditions": 32,
+    "steady": 128,
+    "ready": 128,
+    "max_cents_error": 0.00145722
+  },
+  "jitter_max_case_sd_cents": 0.000306358961519681,
+  "source_sha256_lf": {
+    "native/src/partial_analyzer.cpp": "f9a72210386d8bca585a0e2e55d5dea7eae0eedd8a08c74dc8f66ccaf26f27d7",
+    "native/include/opentune/partial_analyzer.h": "fe34e4419434beac34b1f35e7b96cc5c296a73edac7e8c921a9d2f2085c1614e",
+    "lib/model/piano_calibration.dart": "1395b092a3b0b09c3ea0a7bd9f9453dabc416766a2e13081beacd3799e2ad589",
+    "native/tests/partial_tests.cpp": "c3e49c28d59f3c4579415e2b1ca60e3e7cd6207e97ba248a6142b7684a68ea1c",
+    "native/tests/partial_edges.cpp": "4a27accaebadd3b425f1d74af5244b835da3d73ce92f04c542819a7a040c9cae",
+    "native/tests/partial_curve_loop.cpp": "0bc1fe7a77d218f8ffcfb41a95dae66f7e6662a14e752245265f84d8de05a6d2"
+  },
+  "raw_sha256": {
+    "partial-results/frames.csv": "148f7880c51133045e402dacf8f67db55130a69d0ec84b97761b84a6b03a7734",
+    "partial-results/cases.csv": "2f71502327d8b381ee0ce3904f77140e6339a74a7cc22805f0fba10853dcc603",
+    "partial-edges/frames.csv": "658eb0ca73b4542f000bd75a95f5742c8a10e3d6467d5e6b2e98713021e5232b",
+    "partial-edges/cases.csv": "dd7a03f6c4632cdb836bc4ac4fbaed464950cfb1077ffcb7357f630aa72995b6",
+    "partial-edges/response.csv": "ad3b44fe83a405dcbe58a643f021582ba7f50f0d5017df306b289040027b1e2f",
+    "stretch-targets/curve-guide.csv": "ba64641280f1ffda0b657d077b7d134403f249a694ad32a460525b4f94cbcde2",
+    "stretch-targets/curve-strong.csv": "4e18f7ec61a79d5dd44d2d070f42569847ecf7fa507e6ddabeffe4b3843a8847",
+    "curve-loop/frames.csv": "67a9aae052fbc86a6e388353d7277db6d854aeaf5314a518ea66acadab04aac7",
+    "curve-loop/cases.csv": "a84d1c9f7f7163d932bcb87b852922024651e7ac962e515b0a947326e85d3e7b"
+  }
+}
