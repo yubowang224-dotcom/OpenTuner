@@ -19,7 +19,7 @@ Android Beta，versionCode5001，最低Android7/API24。请在Release的Assets�
 
 **已装旧Debug的用户先不要卸载**：证书不同，不能直接覆盖，当前无用户档案导出/导入入口，不承诺无损迁移。见[安装指南](install-release.zh-CN.md)和[迁移说明](debug-to-release-migration.zh-CN.md)。
 
-已有208 Flutter/12组原生及受影响回归证据；签名/元数据变更运行静态分析和13项针对测试。干净源码独立通过7项smoke和150.1s arm64无密钥AOT构建。三ABI与通用包完成实际签名、Manifest/JNI/许可证/16KB静态检查。
+已有208 Flutter/12组原生及受影响回归证据；签名/元数据变更运行静态分析和13项针对测试。干净源码独立通过7项smoke和独立arm64无密钥AOT构建。三ABI与通用包完成实际签名、Manifest/JNI/许可证/16KB静态检查。
 
 没有本版本真机安装、手机端到端延迟或实琴认证。合成结果不代表复杂声源/厂商设备精度，机械功能保持Experimental。私钥和私有配置不分发。完整源码树位于仓库Code页，源码ZIP为补充。
 
@@ -31,4 +31,4 @@ Includes local microphone pitch analysis and actual waveform/spectrum, seven six
 
 Keep any old Debug app and data: the dedicated release certificate differs, direct replacement is blocked and no profile export/import exists. No lossless migration is promised. File hashes are inSHA256SUMS.txt; the official certificate is `ae27b3e61d3d21419b6a45236bc9c56cbddcf05044a2311f56f4627d2eaf6892`.
 
-Recorded checks include208 Flutter/12 native groups, affected regressions, analysis and13 metadata tests; an independently extracted source passed7 smoke tests and a150.1s unsigned arm64 AOT build without the official key. Signed packages passed manifest/JNI/license/16KB static checks. No new phone installation, end-to-end latency or real-piano certification is claimed. Private signing material is excluded. The complete repository source tree is supplemented by a source ZIP.
+Recorded checks include208 Flutter/12 native groups, affected regressions, analysis and13 metadata tests; an independently extracted source passed7 smoke tests and an unsigned arm64 AOT build without the official key. Signed packages passed manifest/JNI/license/16KB static checks. No new phone installation, end-to-end latency or real-piano certification is claimed. Private signing material is excluded. The complete repository source tree is supplemented by a source ZIP.

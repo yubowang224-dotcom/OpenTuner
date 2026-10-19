@@ -20,7 +20,7 @@
 
 ## 结果与可查看图表
 
-[逐条件完整CSV](evaluation-stage25/summary.csv) · [自动生成比较表](evaluation-stage25/results.md) · [环境/耗时](evaluation-stage25/profile.json)。表中行含多频率时，覆盖率汇总全部帧，P95与SD用最差单条件值，不能误称合并分位数。原始逐帧CSV在忽略的`artifacts/stage25-evaluation/frames.csv`，复跑可重建；阶段2原138条件/9936帧回归仍单独执行，门槛未降低。
+[逐条件完整CSV](evaluation-stage25/summary.csv) · [自动生成比较表](evaluation-stage25/results.md)。表中行含多频率时，覆盖率汇总全部帧，P95与SD用最差单条件值，不能误称合并分位数。原始逐帧CSV在忽略的`artifacts/stage25-evaluation/frames.csv`，复跑可重建；阶段2原138条件/9936帧回归仍单独执行，门槛未降低。
 
 ![频率时序：断线表示无效](evaluation-stage25/time-series.png)
 
@@ -49,9 +49,7 @@
 
 首次多候选实现允许更长周期挽救被拒绝的短周期：10dB噪声下有48个有效帧严重偏低八度（含启动区，两个采样率合计），最差P95约1204c。保留[首轮按类型/振幅聚合摘要](evaluation-stage25/first-iteration-summary.csv)，完整原始记录在`artifacts/stage25-first-iteration`。修复为禁止超过首个可靠周期1.35倍的候选“救回”，加入专门噪声八度回归；最终结果的条件、分母和门槛不变。此规则的代价是某些复杂信号可能宁可拒检，未来需实录验证，而不是继续加候选博取覆盖率。
 
-主机成本在profile.json记录A/B/C分别完整运行同一234秒PCM的CPU/墙钟时间及每帧耗时，自动表见results.md。B重新运行相同冻结前端并计入固定EMA，不以“EMA单独耗时”冒充完整算法。A/B的冻结Analyzer仍执行旧tracker，只是其输出不用于A/B音高；保留这一额外成本以不改原基线。C_shared消融与CSV写入开销单列为postprocessing，不冒充独立完整流水线CPU。
-
-该次实验A/B/C CPU分别6.406250/6.421875/6.765625秒，约2.738%/2.744%/2.891%单核音频时长等效占用（CPU秒÷234秒）；这是同一进程内按A/C/B顺序执行的一轮桌面计时，非整机任务管理器占用，不给出虚假的统计显著性或手机结论。每帧P50/P95与环境详见自动表。报告中另列Windows硬件与C++回归进程峰值内存。GUI刷新、Oboe硬件缓冲与手机温升/功耗均未测。
+计算性能、温升和端到端延迟应在目标设备独立测量；合成音频时间轴响应不包含硬件缓冲或屏幕延迟。
 
 ## 复现
 
@@ -61,7 +59,7 @@
 pwsh -NoProfile -File tools/test-stage25.ps1
 ```
 
-该命令实际构建/运行两个C++测试，随后用Python读取完整CSV生成图表和联合覆盖/误差检查；不是从表格手工填数据。Python需numpy/matplotlib，当前已可用；版本见environment.json。通用平台可分别执行：
+该命令实际构建/运行两个C++测试，随后用Python读取完整CSV生成图表和联合覆盖/误差检查；不是从表格手工填数据。Python需numpy/matplotlib，版本见tools/requirements-evaluation.txt。通用平台可分别执行：
 
 ```text
 cmake -S native -B build/dsp -DCMAKE_BUILD_TYPE=Release
