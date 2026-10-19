@@ -4,27 +4,71 @@ This is a working single-key measurement and model pipeline, **not a professiona
 
 ## Measurement and identifiability
 
-A stiff-string approximation is `f_n = n f_ideal sqrt(1+B n²)` with dimensionless nonnegative B. The actual first partial is `f1 = f_ideal sqrt(1+B)`; these are never interchangeable. A4 and all playable targets refer to **first-partial frequency**. When order 1 is observed, live cents use that actual interpolated peak; otherwise live cents use the explicitly labeled fitted first partial. Stored samples retain both, plus every accepted peak/order/residual. A missing fundamental is therefore model inference, not a measured spectral peak.
+The stiff-string model uses dimensionless nonnegative <i>B</i>. The ideal parameter and actual first partial are distinct:
 
-`native/src/partial_analyzer.cpp` is the exact production implementation used by Android and host tests. It is independent of the accepted general and ET piano analyzers. Actual input rate must be 16–96 kHz. A 750 ms DC-removed Hann window, 100 ms hop and zero-padded radix-2 FFT provide peak estimates; zero padding interpolates the sampled spectrum and **does not create resolving power**. Peaks are local log-magnitude parabolic interpolations, at most 64, above both 2.5% maximum amplitude and four times median spectral amplitude, below min(18 kHz, 0.42 sample rate). Digital FS/RMS are not sound pressure level. Clipping rejects measurement.
+![Stiff-string partial frequencies and actual first partial](formulas/stiff-string.svg)
 
-An explicit selected key supplies an association center, initially ET ±60 cents. B grid seeds are 0 and 80 logarithmic values 1e-6…1e-2, used only to associate at most 16 observed orders. Weighted regression of `(f_n/n)² = a+b n²` estimates `f_ideal=sqrt(a)` and `B=b/a`, followed by reassociation within 5 cents. No selected target is substituted for observed frequencies. Weights are clamped square roots of relative peak power. Tiny negative regression slope may be projected to B=0 with ideal frequency refit; this is an explicit constrained approximation, not evidence that B is physically zero.
+These quantities are never interchangeable. A4 and all playable targets refer to **first-partial frequency**. When order 1 is observed, live cents use that actual interpolated peak; otherwise live cents use the explicitly labeled fitted first partial. Stored samples retain both, plus every accepted peak/order/residual. A missing fundamental is therefore model inference, not a measured spectral peak.
 
-Acceptance requires at least four orders, gcd=1, residual RMS ≤1.5 cents, every residual ≤3 cents, ≥80% explained retained peak power, no detected competing resolved peak and B≤0.01. Sensitivity proxy is `max(0.2, residual_RMS)/sqrt(sum((d_n-mean(d))²))`, where `d_n = (600/ln2)n²/(1+B n²)`. It must be ≤max(2e-6,0.4B). This derivative-based proxy is **not a statistical confidence interval**. Quality `explained * exp(-RMS/2)` is a heuristic score, not a probability. Four consecutive fits must agree within 2 cents and max(20% B,2e-6). All rejected/warming reasons remain visible.
+`native/src/partial_analyzer.cpp` is the exact production implementation used by Android and host tests. It is independent of the accepted general and ET piano analyzers. Actual input rate must be 16–96 kHz. A 750 ms DC-removed Hann window, 100 ms hop and zero-padded radix-2 FFT provide peak estimates; zero padding interpolates the sampled spectrum and **does not create resolving power**. Peaks are local log-magnitude parabolic interpolations, at most 64, above both 2.5% maximum amplitude and four times median spectral amplitude, below both18kHz and42% of the actual sample rate. Digital FS/RMS are not sound pressure level. Clipping rejects measurement.
+
+An explicit selected key supplies an association center, initially ET ±60 cents. B grid seeds are 0 and 80 logarithmic values 10⁻⁶…10⁻², used only to associate at most 16 observed orders. The accepted nonnegative-slope regression uses observed partial frequencies, integer orders and relative powers:
+
+![Weighted stiff-string regression coordinates and parameters](formulas/partial-regression.svg)
+
+It is followed by reassociation within 5 cents. No selected target is substituted for observed frequencies. Here <i>P</i><sub>i</sub> denotes peak power, while the superscript “rel” denotes normalization by the largest retained strong peak across the peak set. Regression uses the clipped square root of this relative power, not the absolute power used in ordinary spectral features. For a tiny accepted negative slope, the implementation sets <i>B</i> to zero and refits the ideal frequency as a geometric mean:
+
+![Zero-B projection and geometric-mean frequency refit](formulas/negative-slope-refit.svg)
+
+Slopes outside the accepted domain, nonpositive intercepts and insufficient orders are rejected. Projection is a constrained approximation, not evidence that physical inharmonicity is exactly zero.
+
+Acceptance requires at least four orders, gcd=1, residual RMS ≤1.5 cents, every residual ≤3 cents, ≥80% explained retained peak power, no detected competing resolved peak and B≤0.01. Residuals are measured in cents; the fit residual is an unweighted RMS:
+
+![Observed partial residuals in cents and their RMS](formulas/partial-residual.svg)
+
+The sensitivity proxy includes the same denominator floor as production code:
+
+![B sensitivity proxy with derivative variance and numerical floor](formulas/partial-sensitivity.svg)
+
+This derivative-based proxy is **not a statistical confidence interval**. Rejection and consecutive-fit gates are:
+
+![Fit residual, sensitivity and consecutive-frame consistency gates](formulas/partial-gates.svg)
+
+ Quality is a clipped heuristic, not a probability:
+
+![Partial-fit heuristic quality](formulas/partial-quality.svg)
+
+Four consecutive accepted fits are required. Adjacent valid windows must be more than50ms and less than200ms apart; inconsistent or rejected fits reset this count. All rejected/warming reasons remain visible.
 
 The algorithm cannot prove which physical key was played if a neighboring key falls inside the frequency association gate. The user must isolate a single key. Unresolved coupled strings, bridges, longitudinal modes, decay, low SNR and room/device processing can violate this model. A0/C8 test points are exploratory; C8 at low B failed identifiability and is correctly rejected. It is not an 88-key reliable mechanical calibration claim.
 
 ## Individual target model
 
-Production pure-Dart `StretchCurve.solve` runs only on explicit Generate, independently of audio callback/UI drawing. This small non-realtime calculation avoids another JNI model representation; tests and the app use the same solver. Define `g(n,B)=n sqrt((1+B n²)/(1+B))`, so `f_n=f1*g(n,B)`. Positive B spreads upper partials; exact ET octaves cannot align all relevant partial pairs. Different measured B values imply different compromises.
+Production pure-Dart `StretchCurve.solve` runs only on explicit Generate, independently of audio callback/UI drawing. This small non-realtime calculation avoids another JNI model representation; tests and the app use the same solver. The normalized partial ratio is:
 
-For each supported MIDI key let x be cents from ET. Minimize
+![Partial ratio normalized by the first partial](formulas/partial-ratio.svg)
 
-`sum_edges w [x_j-x_i - {1200 log2(g(n_i,B_i)/g(n_j,B_j))-100(j-i)}]² + .002 sum x² + .05 sum (x_(k+1)-x_k)²`, with `x_69=0`.
+Positive B spreads upper partials; exact ET octaves cannot align all relevant partial pairs. Different measured B values imply different compromises.
 
-Edges: octave 2:1 weight 1, octave 4:2 weight .25, double octave 4:1 weight .1, multiplied by sample/interpolation quality. Positive-definite regularized least squares is solved by Cholesky. These weights, ET prior and continuity penalty are documented engineering assumptions, not a validated auditory optimum or a complete beat/discomfort model. B is treated as constant for small tuning changes; significant tension changes require new measurements.
+For supported MIDI indices in the set from <i>L</i> through <i>U</i>, let <i>x</i><sub>i</sub> denote cents from ET, distinct from the earlier regression coordinate. The edge set contains the stated octave pairs; each edge uses its selected lower/upper partial orders. Define the desired difference and minimize:
 
-At least five valid samples including A4, spanning ≥36 semitones with support on both sides of A4 (at/below57 and at/above81), and no adjacent gap >12 semitones are required. Interpolate log(B+1e-6) only **inside** measured support. Default six A keys give A1–A6, 61 targets, **not 88 calibrated keys**. Each B is marked measured/interpolated; **every target first-partial frequency is modeled**, including measured keys. No extrapolation: outside the support, UI explicitly falls back to ET. Zero B yields ET and A4 remains exactly the chosen reference.
+![Desired cents offset difference for an octave coordination edge](formulas/stretch-edge.svg)
+
+![Separated octave, weak ET prior and continuity objectives; A4 anchored](formulas/stretch-objective.svg)
+
+Edges: octave 2:1 weight 1, octave 4:2 weight .25, double octave 4:1 weight .1, multiplied by the product of the two key qualities. Interpolated keys use the bounded quality reduction:
+
+![Octave edge quality product and interpolated-key quality](formulas/stretch-weights.svg)
+
+Positive-definite regularized least squares is solved by Cholesky. These weights, ET prior and continuity penalty are documented engineering assumptions, not a validated auditory optimum or a complete beat/discomfort model. B is treated as constant for small tuning changes; significant tension changes require new measurements.
+
+At least five valid samples including A4, spanning ≥36 semitones with support on both sides of A4 (at/below57 and at/above81), and no adjacent gap >12 semitones are required. Interpolate only **inside** measured support using the exact positive-offset log transform:
+
+![Bounded log interpolation of B between measured keys](formulas/inharmonicity-interpolation.svg)
+
+Here the two bounding key indices are distinct; no extrapolation is performed. Default six A keys give A1–A6, 61 targets, **not 88 calibrated keys**. Each B is marked measured/interpolated; **every target first-partial frequency is modeled**, including measured keys. No extrapolation: outside the support, UI explicitly falls back to ET. Zero <i>B</i> yields ET and A4 remains exactly the chosen reference. Every supported target is computed from its solved cents offset:
+
+![Modeled first-partial target from A4 and solved cents offset](formulas/modeled-target.svg)
 
 ## Workflow, storage and resampling
 
@@ -40,7 +84,7 @@ Archive schema2 reads legacy schema1 metadata without rewriting until Save. Cali
 
 The real-time callback remains unchanged: bounded preallocated SPSC PCM copy and counters only. Worker-only FFT/regression uses the new analyzer; stop closes input then joins worker before analyzer release. Discontinuities reset temporal consistency. No FFT, allocation, locks, JNI or UI calls were added to callbacks.
 
-`nativePartialStart(JZDID)` carries session/unprocessed request/A4/MIDI/association center in an immutable admitted Android request. Existing `nativeStart(JZDZ)` stays compatible. ABI4 shares metadata0…47 with ABI3; field48 reason,49 idealHz,50 fitted firstHz,51 B,52 RMS cents,53 sensitivity,54 explained power,55 stable frames,56 peak count,57 partial count,58 window seconds,59 selected MIDI,60 observed firstHz (0 if absent),61 algorithm1,62/63 reserved0. Then exactly `4*count` scalars: order,observedHz,relativePower,residualCents. Array length≤128. No waveform/spectrum transfer in this mode. Parsing validates finite values, ranges, count/order consistency, model agreement, source key and session/sequence/age. Invalid 0Hz never enters a logarithm.
+`nativePartialStart(JZDID)` carries session/unprocessed request/A4/MIDI/association center in an immutable admitted Android request. Existing `nativeStart(JZDZ)` stays compatible. ABI4 shares metadata0…47 with ABI3; field48 reason,49 idealHz,50 fitted firstHz,51 B,52 RMS cents,53 sensitivity,54 explained power,55 stable frames,56 peak count,57 partial count,58 window seconds,59 selected MIDI,60 observed firstHz (0 if absent),61 algorithm1,62/63 reserved0. Then four scalars per accepted partial: order,observedHz,relativePower,residualCents. Array length≤128. No waveform/spectrum transfer in this mode. Parsing validates finite values, ranges, count/order consistency, model agreement, source key and session/sequence/age. Invalid 0Hz never enters a logarithm.
 
 The first window needs750ms and first stable four-frame result about1050ms. Partial startup timeout is1500ms, not the general500ms. Queue gaps may permit **one bounded1200ms refill interval** only for known empty warming snapshots; repeated gaps cannot extend it. A valid old snapshot still expires at250ms. This deliberately slower calibration mode does not retune Explore/Guitar's accepted tracker or their display behavior.
 

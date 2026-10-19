@@ -19,7 +19,7 @@ main损坏且backup有效时提供只读恢复预览；必须点击恢复才将�
 
 ## schema2校准扩展
 
-根仍为schema/revision/selectedId/profiles；schema=2，Profile增加calibration字段（可null）。校准对象精确9字段：algorithm/a4/kind/created/updated/samples/curve/hintAlgorithm/searchHints。测量含16阶以内观测、f_ideal/模型f1/观测第一分音/残差/B/敏感度/质量、原始会话与实际采样率后端、UTC/source；associationHz与associationAlgorithm成对记录已拉伸重采的已知关联中心。它们是搜索约束，不是频率真值。
+根仍为schema/revision/selectedId/profiles；schema=2，Profile增加calibration字段（可null）。校准对象精确9字段：algorithm/a4/kind/created/updated/samples/curve/hintAlgorithm/searchHints。测量含16阶以内观测、<i>f</i><sub>ideal</sub>/模型第一分音/观测第一分音/残差/B/敏感度/质量、原始会话与实际采样率后端、UTC/source；associationHz与associationAlgorithm成对记录已拉伸重采的已知关联中心。它们是搜索约束，不是频率真值。
 
 曲线目标全部模型计算、B测量或区间内插值；读取时使用生产模型重算核对全部点。改样本清曲线，可保留最多88个有界searchHints；map非空必须有已知hintAlgorithm，空map必须显式null，字段缺失/未知或配对错误拒绝，任何未知非null版本均为schema只读错误，不借备份降级。兼容A4/琴型才可用提示，载入不自动激活目标。旧历史校准在元数据改变后保留但不可应用。
 
