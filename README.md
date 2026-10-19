@@ -4,6 +4,8 @@
 
 免费的开源 Android 吉他与钢琴调音工具，支持本地实时音高分析、参考音和节拍器。采用 Flutter、C++ DSP 与 Oboe，音频在设备上处理。
 
+> **[算法设计与数据分析、特征提取](ALGORITHMS.zh-CN.md)**：从麦克风采样、音高跟踪到钢琴模型与可复现实验。
+
 ## 下载安装包
 
 **Android Beta 0.7.0-beta.2 已发布，versionCode 5001，支持 Android 7 / API 24 及以上。**
