@@ -1,0 +1,582 @@
+{
+  "schema": 1,
+  "formulas": [
+    {
+      "id": "frame-window",
+      "alt": "分析窗、帧步长与固定YIN积分长度",
+      "lines": [
+        "N=\\operatorname{round}(0.080f_s),\\quad H=\\operatorname{round}(0.020f_s)",
+        "\\tau_{\\max}=\\left\\lceil\\frac{f_s}{50}\\right\\rceil+2,\\quad W=N-\\tau_{\\max}"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer"
+      ]
+    },
+    {
+      "id": "sample-time",
+      "alt": "软件样本时钟等于窗末样本序号除以实际采样率",
+      "lines": [
+        "t_{\\mathrm{end}}=\\frac{n_{\\mathrm{end}}}{f_s}"
+      ],
+      "source_refs": [
+        "native/android/audio_engine.cpp"
+      ]
+    },
+    {
+      "id": "dc-mean",
+      "alt": "原始样本的均值；去均值样本等于原始样本减去均值",
+      "lines": [
+        "\\mu=\\frac{1}{N}\\sum_{n=0}^{N-1}x[n]",
+        "z[n]=x[n]-\\mu,\\qquad 0\\leq n<N"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:preprocess"
+      ]
+    },
+    {
+      "id": "energy-rms",
+      "alt": "去均值样本的平方和、均方值及均方根",
+      "lines": [
+        "E=\\sum_{n=0}^{N-1}z[n]^2,\\qquad P=\\frac{E}{N}",
+        "A_{\\mathrm{RMS}}=\\sqrt{P}=\\sqrt{\\frac{E}{N}}"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:preprocess"
+      ]
+    },
+    {
+      "id": "level-dbfs",
+      "alt": "数字电平的均方值写法与等价RMS写法，下限分别为十的负十二次方和负六次方",
+      "lines": [
+        "L=10\\log_{10}\\!\\left(\\max\\!\\left(P,10^{-12}\\right)\\right)",
+        "L=20\\log_{10}\\!\\left(\\max\\!\\left(A_{\\mathrm{RMS}},10^{-6}\\right)\\right)"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:preprocess"
+      ]
+    },
+    {
+      "id": "clip-fraction",
+      "alt": "原始PCM绝对值达到0.999的样本数除以总样本数",
+      "lines": [
+        "c_{\\mathrm{clip}}=\\frac{1}{N}\\sum_{n=0}^{N-1}\\mathbf{1}_{\\{|x[n]|\\geq0.999\\}}",
+        "c_{\\mathrm{clip}}>0.02\\quad\\Longrightarrow\\quad\\mathrm{clipped}"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:preprocess",
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "noise-floor",
+      "alt": "非周期窗口的噪声底指数更新与电平余量",
+      "lines": [
+        "\\alpha_k=1-\\exp\\!\\left(-\\frac{\\Delta t_k}{\\tau_k}\\right)",
+        "F_k=F_{k-1}+\\alpha_k(L_k-F_{k-1})",
+        "M_k=L_k-F_k"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:NoiseFloor::observe"
+      ]
+    },
+    {
+      "id": "yin-difference",
+      "alt": "YIN固定积分窗差分函数，各滞后共用同一积分长度",
+      "lines": [
+        "d(\\tau)=\\sum_{j=0}^{W-1}\\left(z[j]-z[j+\\tau]\\right)^2",
+        "1\\leq\\tau\\leq\\tau_{\\max}"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "yin-cmndf",
+      "alt": "累积均值归一化差分函数；零累计差分采用数值保护值一",
+      "lines": [
+        "d^{\\prime}(0)=1,\\qquad S(\\tau)=\\sum_{\\ell=1}^{\\tau}d(\\ell)",
+        "d^{\\prime}(\\tau)=\\frac{\\tau d(\\tau)}{S(\\tau)}\\quad\\left(S(\\tau)>10^{-20}\\right)",
+        "d^{\\prime}(\\tau)=1\\quad\\left(S(\\tau)\\leq10^{-20}\\right)"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "periodicity",
+      "alt": "周期评分是归一化差分谷值的一减，并限制在零到一",
+      "lines": [
+        "q=\\min\\!\\left(1,\\max\\!\\left(0,1-d^{\\prime}(\\tau)\\right)\\right)"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "hann-window",
+      "alt": "对称Hann窗及加窗后的离散傅里叶变换",
+      "lines": [
+        "w[n]=\\frac{1}{2}-\\frac{1}{2}\\cos\\!\\left(\\frac{2\\pi n}{N-1}\\right)",
+        "X_k=\\sum_{n=0}^{N-1}z[n]w[n]\\exp\\!\\left(-\\frac{\\mathrm{i}2\\pi kn}{N_{\\mathrm{FFT}}}\\right)"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "spectrum-axes",
+      "alt": "频谱横轴为实际FFT频率；纵轴是Hann归一化单边峰幅的dBFS每bin",
+      "lines": [
+        "f_k=\\frac{k f_s}{N_{\\mathrm{FFT}}},\\qquad A_k=\\frac{\\eta_k|X_k|}{\\sum_{n=0}^{N-1}w[n]}",
+        "S_k=20\\log_{10}\\!\\left(\\max(A_k,10^{-6})\\right)",
+        "\\eta_0=1,\\qquad\\eta_k=2\\ \\ (k>0)"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "spectral-peaks",
+      "alt": "对数谱峰的三点抛物线插值与峰频率",
+      "lines": [
+        "a=\\ln\\max(|X_{k-1}|,10^{-15}),\\quad b=\\ln\\max(|X_k|,10^{-15})",
+        "c=\\ln\\max(|X_{k+1}|,10^{-15})",
+        "\\delta=\\operatorname{clip}_{[-0.5,0.5]}\\!\\left(\\frac{a-c}{2(a-2b+c)}\\right)",
+        "\\widehat f_k=\\frac{(k+\\delta)f_s}{N_{\\mathrm{FFT}}}"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:extractSpectrum"
+      ]
+    },
+    {
+      "id": "harmonic-consistency",
+      "alt": "保留强峰中，符合整数谐波关系的峰功率占比",
+      "lines": [
+        "h(f_0)=\\frac{\\sum_{i\\in\\mathcal{H}(f_0)}P_i}{\\sum_{i\\in\\mathcal{P}}P_i}",
+        "\\mathcal{H}(f_0)=\\left\\{i:\\ n_i\\geq1,\\ |\\widehat f_i-n_i f_0|\\leq\\max(1.5,0.004\\widehat f_i)\\right\\}",
+        "n_i=\\operatorname{round}\\!\\left(\\frac{\\widehat f_i}{f_0}\\right)"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:SpectralFeatures::harmonicRatio"
+      ]
+    },
+    {
+      "id": "spectral-centroid",
+      "alt": "功率谱重心；计算集合不包含直流，且使用源码中的严格频率边界",
+      "lines": [
+        "C=\\frac{\\sum_{k\\in\\mathcal{K}}f_k|X_k|^2}{\\sum_{k\\in\\mathcal{K}}|X_k|^2}",
+        "\\mathcal{K}=\\{1,\\ldots,K_{\\max}-1\\}",
+        "K_{\\max}=\\min\\!\\left(\\frac{N_{\\mathrm{FFT}}}{2}-1,\\left\\lfloor\\frac{8000N_{\\mathrm{FFT}}}{f_s}\\right\\rfloor\\right)"
+      ],
+      "source_refs": [
+        "native/src/features.cpp:extractSpectrum"
+      ]
+    },
+    {
+      "id": "candidate-rank",
+      "alt": "通过门控的候选以周期性、谐波一致性和周期长度惩罚排序",
+      "lines": [
+        "R=0.75q+0.25h-0.025\\log_2\\!\\left(\\frac{\\tau}{2}\\right)"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "yin-interpolation",
+      "alt": "CMNDF局部谷值的初始插值滞后",
+      "lines": [
+        "\\delta_Y=\\operatorname{clip}_{[-0.5,0.5]}\\!\\left(\\frac{d^{\\prime}(\\tau-1)-d^{\\prime}(\\tau+1)}{2[d^{\\prime}(\\tau-1)-2d^{\\prime}(\\tau)+d^{\\prime}(\\tau+1)]}\\right)",
+        "\\widetilde\\tau=\\tau+\\delta_Y"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "cosine-refinement",
+      "alt": "原始差分的余弦曲率校正和基频估计",
+      "lines": [
+        "\\omega=\\frac{2\\pi}{\\widetilde\\tau},\\qquad r_\\omega=\\frac{\\tan(\\frac{\\omega}{2})}{\\frac{\\omega}{2}}",
+        "\\delta_D=\\operatorname{clip}_{[-0.5,0.5]}\\!\\left(\\frac{d(\\tau-1)-d(\\tau+1)}{2[d(\\tau-1)-2d(\\tau)+d(\\tau+1)]}\\,r_\\omega\\right)",
+        "\\widehat f_0=\\frac{f_s}{\\tau+\\delta_D}"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "log-pitch",
+      "alt": "连续对数频率坐标及相邻原始估计的音高变化率",
+      "lines": [
+        "p_k=\\log_2(\\widehat f_k),\\qquad v_k=1200\\frac{p_k-p_{k-1}}{\\Delta t_k}"
+      ],
+      "source_refs": [
+        "native/src/pitch_tracker.cpp:PitchTracker::update"
+      ]
+    },
+    {
+      "id": "adaptive-tracking",
+      "alt": "在连续对数频率坐标中进行自适应指数平滑",
+      "lines": [
+        "\\alpha_k=1-\\exp\\!\\left(-\\frac{\\Delta t_k}{\\tau_k}\\right)",
+        "s_k=s_{k-1}+\\alpha_k(p_k-s_{k-1}),\\qquad f_{\\mathrm{tracked},k}=2^{s_k}",
+        "e_k=1200(p_k-s_{k-1})"
+      ],
+      "source_refs": [
+        "native/src/pitch_tracker.cpp:PitchTracker::update"
+      ]
+    },
+    {
+      "id": "temporal-consistency",
+      "alt": "候选期的计数相容度与跟踪期的创新相容度",
+      "lines": [
+        "u_{\\mathrm{candidate}}=\\min\\!\\left(1,\\frac{n_{\\mathrm{seen}}}{n_{\\mathrm{required}}}\\right)",
+        "u_{\\mathrm{tracking}}=\\exp\\!\\left(-\\frac{|e_k|}{80}\\right)"
+      ],
+      "source_refs": [
+        "native/src/pitch_tracker.cpp:PitchTracker::update"
+      ]
+    },
+    {
+      "id": "et-target",
+      "alt": "以当前A4为基准的十二平均律目标频率",
+      "lines": [
+        "f_{\\mathrm{ET}}(m)=f_{\\mathrm{A4}}\\,2^{\\frac{m-69}{12}}"
+      ],
+      "source_refs": [
+        "lib/model/guitar_tuning.dart",
+        "lib/model/piano_model.dart"
+      ]
+    },
+    {
+      "id": "cents-error",
+      "alt": "实测频率相对实际目标频率的音分偏差",
+      "lines": [
+        "c=1200\\log_2\\!\\left(\\frac{f_{\\mathrm{measured}}}{f_{\\mathrm{target}}}\\right)"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:centsBetween"
+      ]
+    },
+    {
+      "id": "nearest-note",
+      "alt": "最近MIDI音名及其音分偏差",
+      "lines": [
+        "p_{\\mathrm{A4}}=1200\\log_2\\!\\left(\\frac{f_{\\mathrm{tracked}}}{f_{\\mathrm{A4}}}\\right)",
+        "m=\\operatorname{round}\\!\\left(69+\\frac{p_{\\mathrm{A4}}}{100}\\right)",
+        "c_{\\mathrm{nearest}}=p_{\\mathrm{A4}}-100(m-69)"
+      ],
+      "source_refs": [
+        "native/src/analyzer.cpp:Analyzer::analyze"
+      ]
+    },
+    {
+      "id": "piano-window",
+      "alt": "ET钢琴使用独立的180毫秒窗口和20毫秒帧步长",
+      "lines": [
+        "N_{\\mathrm{piano}}=\\operatorname{round}(0.180f_s),\\quad H_{\\mathrm{piano}}=\\operatorname{round}(0.020f_s)",
+        "\\tau_{\\max,\\mathrm{piano}}=\\left\\lceil\\frac{f_s}{23}\\right\\rceil+2,\\quad W_{\\mathrm{piano}}=N_{\\mathrm{piano}}-\\tau_{\\max,\\mathrm{piano}}"
+      ],
+      "source_refs": [
+        "native/src/piano_analyzer.cpp:PianoAnalyzer"
+      ]
+    },
+    {
+      "id": "piano-refinement",
+      "alt": "从实际观测分音提取候选频率的功率加权对数均值，并按阶数最大公因数归一",
+      "lines": [
+        "n_i=\\operatorname{round}\\!\\left(\\frac{\\widehat f_i}{h}\\right)",
+        "\\ell=\\frac{\\sum_{i=1}^{M} P_i\\log_2\\!\\left(\\frac{\\widehat f_i}{n_i}\\right)}{\\sum_{i=1}^{M} P_i}",
+        "h_{\\mathrm{refined}}=2^\\ell\\,\\operatorname{gcd}(n_1,\\ldots,n_M)"
+      ],
+      "source_refs": [
+        "native/src/piano_analyzer.cpp"
+      ]
+    },
+    {
+      "id": "stiff-string",
+      "alt": "刚弦分音模型及第一分音与理想弦参数的关系",
+      "lines": [
+        "f_n=n f_{\\mathrm{ideal}}\\sqrt{1+Bn^2}",
+        "f_1=f_{\\mathrm{ideal}}\\sqrt{1+B}"
+      ],
+      "source_refs": [
+        "native/src/partial_analyzer.cpp:predicted"
+      ]
+    },
+    {
+      "id": "partial-regression",
+      "alt": "刚弦模型的线性回归坐标及理想频率和非谐性参数",
+      "lines": [
+        "x_i=n_i^2,\\qquad y_i=\\left(\\frac{\\widehat f_i}{n_i}\\right)^2",
+        "y_i=a+bx_i,\\qquad f_{\\mathrm{ideal}}=\\sqrt{a},\\qquad B=\\frac{b}{a}\\quad(b\\geq0)",
+        "P_{\\max}=\\max_{j\\in\\mathcal{P}}P_j,\\qquad P_i^{\\mathrm{rel}}=\\frac{P_i}{P_{\\max}}",
+        "w_i=\\operatorname{clip}_{[0.1,1]}\\!\\left(\\sqrt{P_i^{\\mathrm{rel}}}\\right)"
+      ],
+      "source_refs": [
+        "native/src/partial_analyzer.cpp:regress"
+      ]
+    },
+    {
+      "id": "partial-residual",
+      "alt": "每个分音的音分残差以及未经加权的残差均方根",
+      "lines": [
+        "r_i=1200\\log_2\\!\\left(\\frac{\\widehat f_i}{n_i f_{\\mathrm{ideal}}\\sqrt{1+Bn_i^2}}\\right)",
+        "R_{\\mathrm{fit}}=\\sqrt{\\frac{1}{M}\\sum_{i=1}^{M}r_i^2}"
+      ],
+      "source_refs": [
+        "native/src/partial_analyzer.cpp:regress"
+      ]
+    },
+    {
+      "id": "partial-sensitivity",
+      "alt": "非谐性参数敏感度代理，包括生产实现中的分母数值保护",
+      "lines": [
+        "d_i=\\frac{600}{\\ln 2}\\frac{n_i^2}{1+Bn_i^2},\\qquad\\overline{d}=\\frac{1}{M}\\sum_{i=1}^{M}d_i",
+        "\\gamma_B=\\frac{\\max(0.2,R_{\\mathrm{fit}})}{\\sqrt{\\max\\!\\left(1,\\sum_{i=1}^{M}(d_i-\\overline{d})^2\\right)}}"
+      ],
+      "source_refs": [
+        "native/src/partial_analyzer.cpp:regress"
+      ]
+    },
+    {
+      "id": "partial-quality",
+      "alt": "分音拟合质量评分由解释率与残差衰减构成，不是正确概率",
+      "lines": [
+        "Q=\\operatorname{clip}_{[0,1]}\\!\\left(h_{\\mathrm{explained}}\\exp\\!\\left(-\\frac{R_{\\mathrm{fit}}}{2}\\right)\\right)"
+      ],
+      "source_refs": [
+        "native/src/partial_analyzer.cpp:fitStiffString"
+      ]
+    },
+    {
+      "id": "partial-ratio",
+      "alt": "以第一分音为基准归一化的刚弦分音比",
+      "lines": [
+        "g(n,B)=n\\sqrt{\\frac{1+Bn^2}{1+B}},\\qquad f_n=f_1g(n,B)"
+      ],
+      "source_refs": [
+        "lib/model/piano_calibration.dart:partialRatio"
+      ]
+    },
+    {
+      "id": "stretch-edge",
+      "alt": "分音协调边要求的相对十二平均律音分偏移差",
+      "lines": [
+        "\\Delta_{ij}=1200\\log_2\\!\\left(\\frac{g(n_i,B_i)}{g(n_j,B_j)}\\right)-100(j-i)"
+      ],
+      "source_refs": [
+        "lib/model/piano_calibration.dart:StretchCurve.solve"
+      ]
+    },
+    {
+      "id": "stretch-objective",
+      "alt": "拉伸目标的加权分音协调项、十二平均律弱先验和邻键连续项，A4偏移固定为零",
+      "lines": [
+        "J=J_{\\mathrm{oct}}+J_{\\mathrm{ET}}+J_{\\mathrm{smooth}},\\qquad x_{69}=0",
+        "J_{\\mathrm{oct}}=\\sum_{(i,j)\\in\\mathcal{E}}w_{ij}(x_j-x_i-\\Delta_{ij})^2",
+        "J_{\\mathrm{ET}}=0.002\\sum_{i\\in\\mathcal{I}}x_i^2",
+        "J_{\\mathrm{smooth}}=0.05\\sum_{i=L}^{U-1}(x_{i+1}-x_i)^2"
+      ],
+      "source_refs": [
+        "lib/model/piano_calibration.dart:StretchCurve.solve"
+      ]
+    },
+    {
+      "id": "inharmonicity-interpolation",
+      "alt": "仅在有效测点之间对非谐性参数作带正偏置的对数插值",
+      "lines": [
+        "t=\\frac{m-m_L}{m_U-m_L},\\qquad\\varepsilon=10^{-6}",
+        "u_m=(1-t)\\ln(B_L+\\varepsilon)+t\\ln(B_U+\\varepsilon)",
+        "B(m)=\\max(0,\\exp(u_m)-\\varepsilon)"
+      ],
+      "source_refs": [
+        "lib/model/piano_calibration.dart:StretchCurve.solve"
+      ]
+    },
+    {
+      "id": "modeled-target",
+      "alt": "模型目标由当前A4、十二平均律键间距和求解出的音分偏移共同确定",
+      "lines": [
+        "f_{\\mathrm{target}}(m)=f_{\\mathrm{A4}}\\,2^{\\frac{m-69}{12}+\\frac{x_m}{1200}}"
+      ],
+      "source_refs": [
+        "lib/model/piano_calibration.dart:StretchCurve.solve"
+      ]
+    },
+    {
+      "id": "waveform-grid",
+      "alt": "显示样本数、抽取倍数及真实采样时间间隔",
+      "lines": [
+        "V=\\operatorname{round}(0.020R),\\qquad D=\\max\\!\\left(1,\\left\\lceil\\frac{V}{512}\\right\\rceil\\right)",
+        "N_d=\\min\\!\\left(512,\\left\\lfloor\\frac{V}{D}\\right\\rfloor+1\\right),\\qquad\\Delta t=\\frac{D}{R}"
+      ],
+      "source_refs": [
+        "native/src/waveform.cpp:WaveformDisplay"
+      ]
+    },
+    {
+      "id": "fir-window",
+      "alt": "显示专用Blackman窗及其截止频率",
+      "lines": [
+        "M=16D,\\qquad f_c=\\frac{0.4}{D}",
+        "b[j]=0.42+0.5\\cos\\!\\left(\\frac{\\pi j}{M}\\right)+0.08\\cos\\!\\left(\\frac{2\\pi j}{M}\\right)"
+      ],
+      "source_refs": [
+        "native/src/waveform.cpp:WaveformDisplay"
+      ]
+    },
+    {
+      "id": "fir-kernel",
+      "alt": "显示低通核的sinc中心值、非中心值及单位直流增益归一化",
+      "lines": [
+        "\\widetilde h[0]=2f_c b[0]",
+        "\\widetilde h[j]=\\frac{\\sin(2\\pi f_cj)}{\\pi j}\\,b[j]\\quad(j\\ne0)",
+        "h[j]=\\frac{\\widetilde h[j]}{\\sum_{\\ell=-M}^{M}\\widetilde h[\\ell]},\\qquad -M\\leq j\\leq M"
+      ],
+      "source_refs": [
+        "native/src/waveform.cpp:WaveformDisplay"
+      ]
+    },
+    {
+      "id": "waveform-samples",
+      "alt": "显示滤波值只由真实PCM计算，不由估计音高合成",
+      "lines": [
+        "y[i]=\\sum_{j=-M}^{M}h[j]\\,x[s+iD+j],\\qquad 0\\leq i<N_d"
+      ],
+      "source_refs": [
+        "native/src/waveform.cpp:WaveformDisplay::extract"
+      ]
+    },
+    {
+      "id": "waveform-time",
+      "alt": "波形横轴与样本时钟起点、终点",
+      "lines": [
+        "t_i=\\frac{1000iD}{R}\\ \\mathrm{ms},\\qquad t_0^{\\mathrm{clock}}=t_{\\mathrm{end}}+\\frac{s-N}{R}",
+        "T_{\\mathrm{display}}=(N_d-1)\\Delta t"
+      ],
+      "source_refs": [
+        "native/src/waveform.cpp:WaveformDisplay::extract"
+      ]
+    },
+    {
+      "id": "waveform-scale",
+      "alt": "波形纵轴自动范围使用数字满量程幅度，不是声压级",
+      "lines": [
+        "A_{\\mathrm{axis}}=1.15\\max\\!\\left(0.01,\\max_i|y[i]|\\right)"
+      ],
+      "source_refs": [
+        "lib/audio/explore_page.dart"
+      ]
+    },
+    {
+      "id": "tone-phase",
+      "alt": "参考音相位按实际输出采样率逐样本累加",
+      "lines": [
+        "\\Delta\\phi=\\frac{2\\pi f_0}{R},\\qquad \\phi_{k+1}=(\\phi_k+\\Delta\\phi)\\operatorname{mod}(2\\pi)"
+      ],
+      "source_refs": [
+        "native/src/tone_synth.cpp:ToneSynth::render"
+      ]
+    },
+    {
+      "id": "guitar-synthesis",
+      "alt": "归一化整数谐波的加法拨弦合成，仅保留数字带宽内分音",
+      "lines": [
+        "y[k]=0.65\\,g\\,A[k]\\sum_{n\\in\\mathcal{S}}\\frac{w_n}{W}\\,a_n^k\\sin(n\\phi_k)",
+        "W=\\sum_{n\\in\\mathcal{S}}w_n,\\qquad\\mathcal{S}=\\{n\\in\\{1,\\ldots,8\\}:nf_0<0.45R\\}"
+      ],
+      "source_refs": [
+        "native/src/tone_synth.cpp:ToneSynth::render"
+      ]
+    },
+    {
+      "id": "partial-decay",
+      "alt": "各合成分音的逐样本指数衰减乘数",
+      "lines": [
+        "a_n=\\exp\\!\\left(-\\frac{0.35+0.17n}{R}\\right)"
+      ],
+      "source_refs": [
+        "native/src/tone_synth.cpp:ToneSynth"
+      ]
+    },
+    {
+      "id": "tone-envelope",
+      "alt": "参考音起音和停止时的连续余弦收音包络",
+      "lines": [
+        "N_a=\\max\\!\\left(1,\\left\\lfloor\\frac{R}{100}\\right\\rfloor\\right),\\quad N_r=\\max\\!\\left(1,\\left\\lfloor\\frac{3R}{100}\\right\\rfloor\\right)",
+        "A_{\\mathrm{attack}}[k]=\\min\\!\\left(1,\\frac{k}{N_a}\\right)",
+        "A_{\\mathrm{release}}[\\ell]=\\frac{A_{\\mathrm{stop}}}{2}\\left[1+\\cos\\!\\left(\\pi\\frac{\\min(\\ell,N_r)}{N_r}\\right)\\right]"
+      ],
+      "source_refs": [
+        "native/src/tone_synth.cpp:ToneSynth::render"
+      ]
+    },
+    {
+      "id": "sine-reference",
+      "alt": "钢琴正弦参考音的数字峰幅与包络",
+      "lines": [
+        "y_{\\mathrm{sine}}[k]=0.15\\,g\\,A[k]\\sin(\\phi_k)"
+      ],
+      "source_refs": [
+        "native/src/tone_synth.cpp:ToneSynth::render"
+      ]
+    },
+    {
+      "id": "metronome-period",
+      "alt": "以音频样本时钟调度的细分拍周期和累计期限",
+      "lines": [
+        "P=\\frac{60R}{\\mathrm{BPM}}\\frac{4}{d\\,v}",
+        "t_j^{\\mathrm{sample}}=a+jP"
+      ],
+      "source_refs": [
+        "native/src/metronome.cpp:MetronomeSynth::period"
+      ]
+    },
+    {
+      "id": "gain-slew",
+      "alt": "节拍器每样本音量变动上限，等效约五毫秒全量程变化",
+      "lines": [
+        "|\\Delta g|\\leq\\frac{1}{\\max\\!\\left(1,\\left\\lfloor\\frac{R}{200}\\right\\rfloor\\right)}"
+      ],
+      "source_refs": [
+        "native/src/metronome.cpp:MetronomeSynth::render"
+      ]
+    },
+    {
+      "id": "negative-slope-refit",
+      "alt": "微小负斜率投影到零非谐性后，理想频率按实际分音作几何平均重新拟合",
+      "lines": [
+        "B=0,\\qquad f_{\\mathrm{ideal}}=\\exp\\!\\left(\\frac{1}{M}\\sum_{i=1}^{M}\\ln\\frac{\\widehat f_i}{n_i}\\right)",
+        "-2\\times10^{-6}\\leq\\frac{b}{a}<0"
+      ],
+      "source_refs": [
+        "native/src/partial_analyzer.cpp:regress"
+      ]
+    },
+    {
+      "id": "partial-gates",
+      "alt": "分音残差与参数敏感度门限，以及相邻拟合的音高和非谐性一致性",
+      "lines": [
+        "R_{\\mathrm{fit}}\\leq1.5,\\quad\\max_i|r_i|\\leq3,\\quad\\gamma_B\\leq\\max(2\\times10^{-6},0.4B)",
+        "\\left|1200\\log_2\\!\\left(\\frac{f_{1,k}}{f_{1,k-1}}\\right)\\right|\\leq2",
+        "|B_k-B_{k-1}|\\leq\\max\\!\\left(2\\times10^{-6},0.2\\max(B_k,B_{k-1})\\right)"
+      ],
+      "source_refs": [
+        "native/src/partial_analyzer.cpp:PartialAnalyzer::analyze"
+      ]
+    },
+    {
+      "id": "stretch-weights",
+      "alt": "分音协调边的质量乘积权重和插值键的折减质量",
+      "lines": [
+        "w_{ij}=w_{ij}^{\\mathrm{base}}Q_iQ_j",
+        "Q_{\\mathrm{interpolated}}=0.6\\min(Q_L,Q_U)"
+      ],
+      "source_refs": [
+        "lib/model/piano_calibration.dart:StretchCurve.solve"
+      ]
+    }
+  ]
+}
