@@ -1,0 +1,44 @@
+{
+  "artifacts/stage25-evaluation/frames.csv": {
+    "bytes": 7743587,
+    "sha256": "19c7fede7ffa1f260bcb9b12b221bd5cf281c665f333e3515f1625c6fbfab28d"
+  },
+  "artifacts/stage25-evaluation/summary.csv": {
+    "bytes": 60407,
+    "sha256": "8fdc9520bfe5473503b97ed17ba40339640d7c2723554c32ca344ca032b87f2d"
+  },
+  "artifacts/dsp/frames.csv": {
+    "bytes": 1766830,
+    "sha256": "941205c1f3565aa93f6ac0ac6ce95949f20c22aac31ab09080ae53c53ef83f9d"
+  },
+  "artifacts/dsp/cases.csv": {
+    "bytes": 25516,
+    "sha256": "ad59bc8b45795cb85a2a6bc22e50795f12702b0c47331c7b71e422bbd59bc0b7"
+  },
+  "native/tests/evaluation.cpp": {
+    "bytes": 10061,
+    "sha256": "dcf5c92ead8e15e1573739c083af9d0f0d615b12764c515b4e2cbb6baf8b245c",
+    "sha256_lf": "c30f175ea554f303b3560ddeec186bcf230d8408e744945271f917d0dfb3c4ec"
+  },
+  "native/src/analyzer.cpp": {
+    "bytes": 10085,
+    "sha256": "05e71f6271fb69d6ae54523a9806d6832ce04e381c9189534033f12d542f5201",
+    "sha256_lf": "d4fcf4b3005388a5c3dc416b11fade97385a6afe39dffe2df2619aecb89fdcbb"
+  },
+  "native/src/features.cpp": {
+    "bytes": 2925,
+    "sha256": "5fd579836f61690af7f054a16e35dafcc761c057fec8e9525b8a64095fc3fd9d",
+    "sha256_lf": "5fd579836f61690af7f054a16e35dafcc761c057fec8e9525b8a64095fc3fd9d"
+  },
+  "native/src/pitch_tracker.cpp": {
+    "bytes": 2398,
+    "sha256": "f5e06bf2c85ee28f27be2ab73002f331f6f0dc2dbd1818661a6de54bcb5ab6b9",
+    "sha256_lf": "f5e06bf2c85ee28f27be2ab73002f331f6f0dc2dbd1818661a6de54bcb5ab6b9"
+  },
+  "tools/evaluate_tracking.py": {
+    "bytes": 9198,
+    "sha256": "84a222caf1eb036bdda59c6fce8655e723adfd4318252a795eeabf6455a176ca",
+    "sha256_lf": "c365e0a8c637242dafd31c95d483e879fb1a07a902b2cbfbb26757b93c0b6f84"
+  },
+  "_note": "SHA-256 is of executed Windows workspace/artifact bytes. Source sha256_lf normalizes CRLF to LF; cross-platform RNG/CSV bytes can differ as documented."
+}

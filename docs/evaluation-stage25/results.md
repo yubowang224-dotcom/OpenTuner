@@ -1,0 +1,40 @@
+# Stage 2.5 measured synthetic comparison (48 kHz)
+
+Each cell: coverage % / P95 cents / jitter SD cents; dynamic jitter is omitted.
+
+| Case | A raw | B fixed | C adaptive | C shared | Stage2 |
+|---|---|---|---|---|---|
+| sine | 100.0 / 0.012 / 0.008 | 100.0 / 0.004 / 0.001 | 100.0 / 0.004 / 0.001 | 100.0 / 0.004 / 0.001 | 100.0 / 0.007 / 0.003 |
+| weak | 0.0 / — / — | 0.0 / — / — | 100.0 / 0.000 / 0.000 | 0.0 / — / — | 0.0 / — / — |
+| harmonic | 100.0 / 0.007 / 0.004 | 100.0 / 0.002 / 0.000 | 100.0 / 0.002 / 0.000 | 100.0 / 0.002 / 0.000 | 100.0 / 0.004 / 0.002 |
+| missing | 100.0 / 0.010 / 0.005 | 100.0 / 0.003 / 0.001 | 100.0 / 0.003 / 0.001 | 100.0 / 0.003 / 0.001 | 100.0 / 0.006 / 0.003 |
+| snr40 | 100.0 / 0.027 / 0.015 | 100.0 / 0.006 / 0.003 | 100.0 / 0.006 / 0.003 | 100.0 / 0.006 / 0.003 | 100.0 / 0.018 / 0.009 |
+| snr20 | 100.0 / 1.204 / 0.573 | 100.0 / 0.519 / 0.227 | 100.0 / 0.564 / 0.244 | 100.0 / 0.564 / 0.244 | 100.0 / 0.920 / 0.444 |
+| snr10 | 64.7 / 6.480 / 3.054 | 64.7 / 5.997 / 2.186 | 68.4 / 3.062 / 1.256 | 64.7 / 3.144 / 1.265 | 50.7 / 5.996 / 2.693 |
+| snr0 | 0.0 / — / — | 0.0 / — / — | 0.0 / — / — | 0.0 / — / — | 0.0 / — / — |
+| phase_noise | 100.0 / 0.394 / 0.216 | 100.0 / 0.066 / 0.034 | 100.0 / 0.076 / 0.038 | 100.0 / 0.076 / 0.038 | 100.0 / 0.262 / 0.129 |
+| step | 100.0 / 0.002 / — | 100.0 / 729.077 / — | 99.3 / 0.000 / — | 99.3 / 0.000 / — | 99.3 / 0.001 / — |
+| glide | 100.0 / 12.918 / — | 100.0 / 49.121 / — | 100.0 / 24.048 / — | 100.0 / 24.048 / — | 95.6 / 17.280 / — |
+| vibrato | 100.0 / 18.971 / — | 100.0 / 16.930 / — | 100.0 / 17.098 / — | 100.0 / 17.098 / — | 100.0 / 20.688 / — |
+| interference | 95.6 / 0.002 / — | 95.6 / 0.001 / — | 95.6 / 0.000 / — | 95.6 / 0.000 / — | 94.9 / 0.001 / — |
+| silence_return | 98.1 / 0.001 / — | 98.1 / 0.001 / — | 96.2 / 0.001 / — | 96.2 / 0.001 / — | 97.2 / 0.001 / — |
+
+P95 and SD above are the **worst individual condition** in each row, not pooled percentiles. No successful frames are silently removed.
+
+| Method | Step first / third confirmation ms | First valid ms | Loss first invalid ms |
+|---|---|---|---|
+| A_raw | 80 / 120 | 80 | 60 |
+| B_fixed | 780 / 820 | 80 | 60 |
+| C_adaptive | 100 / 140 | 100 | 60 |
+| C_shared | 100 / 140 | 100 | 60 |
+| Stage2 | 100 / 140 | 100 | 60 |
+
+All inputs here are synthetic. Loss timing includes partial windows after silence; internal tracker expiry is 200 ms. Phone latency and CPU are unmeasured.
+
+| Full host pipeline | CPU seconds / 234 s PCM | One-core audio-time equivalent % | Frame compute P50 / P95 ms |
+|---|---|---|---|
+| A_raw | 6.406250 | 2.738 | 0.568 / 0.785 |
+| B_fixed | 6.421875 | 2.744 | 0.573 / 0.795 |
+| C_adaptive | 6.765625 | 2.891 | 0.581 / 0.803 |
+
+A/B include the unchanged frozen Analyzer (its old tracker still executes, although A/B use frame observations). B reruns that frontend independently and includes fixed EMA cost. C uses production features/tracking. This is one sequential host run, not phone CPU or statistical performance certification. Shared-tracker/CSV overhead is recorded separately.
