@@ -1,0 +1,4 @@
+# Optional host-only plotting environment; not shipped in the Android APK.
+# Python 3.11 used for the recorded experiment.
+numpy==2.4.4
+matplotlib==3.10.8
