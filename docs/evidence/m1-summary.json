@@ -1,0 +1,68 @@
+{
+  "conditions": 336,
+  "steady_frames": 15456,
+  "valid": 15456,
+  "median_cents": 0.000136365022313305,
+  "p95_cents": 0.00160170541602424,
+  "octave_errors": 0,
+  "p95_compute_ms": 0.5967,
+  "invalid_frames": 228,
+  "false_valid": 0,
+  "kind": "Original synthetic signals, Windows host; not Android SPL/loudness/latency",
+  "voice": {
+    "conditions": 105,
+    "max_case_p95_pitch_cents": 0.702246126205347,
+    "peak_max_fs": 0.41982114315033,
+    "accepted_frames": 1680,
+    "total_frames": 1785,
+    "default_gain": 0.8,
+    "rms_gain_db_vs_legacy": {
+      "73.416191979": [
+        3.9233497190940314,
+        1.39067263376493,
+        -4.790190915169556,
+        -1.1593547784060874
+      ],
+      "82.406889228": [
+        3.9241381301769844,
+        1.4071970195895958,
+        -4.789720987564252,
+        -1.1563007471463336
+      ],
+      "110": [
+        3.92462660662884,
+        1.4030086159047728,
+        -4.787197772861498,
+        -1.1570353921577368
+      ],
+      "329.627556913": [
+        3.9151734232538753,
+        1.401961574629761,
+        -4.786235846126217,
+        -1.1594812107898518
+      ]
+    }
+  },
+  "metro": {
+    "events": 6000,
+    "measured_gain_db_range": [
+      6.02059991224916,
+      6.02059993072966
+    ],
+    "max_peak_fs": 0.430376887321472,
+    "target_gain_percent_default": 100,
+    "gain_slew_ms": 5
+  },
+  "pitch_source_unchanged_from": "4120511",
+  "regression": {
+    "rows": 57330,
+    "non_timing_differences": 0
+  },
+  "artifact_sha256": {
+    "guitar-results/frames.csv": "f428d62c46ec3e2eb973e76595adaa73e9ffcee18fb6aacdaf63c6553d960921",
+    "guitar-results/cases.csv": "d0800b659caa1a6b6aefd21cffbd4678ec7292d3ab56a33ac3f6945d0c480ace",
+    "voice-results/voice.csv": "ef58aa22a5413ae9aa2d230a2f2e8ab3c246a8f73eaf6fb697916c7c1c32be53",
+    "voice-results/levels.csv": "f4fa6868a1728249bf9aa814ff4c47b2ef4e82a3b9066b5f481c37c24df70b53",
+    "metronome-results/levels.csv": "938ca54097da2e27de13742e4316eedfdb65dbd140b2f16059ed2c02609bc572"
+  }
+}

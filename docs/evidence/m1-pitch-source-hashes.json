@@ -1,0 +1,12 @@
+{
+  "reference": "Git 4120511, prior accepted input core; normalized LF source hashes; no expected measurement outputs",
+  "sha256_lf": {
+    "native/src/analyzer.cpp": "d4fcf4b3005388a5c3dc416b11fade97385a6afe39dffe2df2619aecb89fdcbb",
+    "native/src/features.cpp": "5fd579836f61690af7f054a16e35dafcc761c057fec8e9525b8a64095fc3fd9d",
+    "native/src/pitch_tracker.cpp": "f5e06bf2c85ee28f27be2ab73002f331f6f0dc2dbd1818661a6de54bcb5ab6b9",
+    "native/src/c_api.cpp": "23051dd42e7e23302481378743efb2978501a5705a2d82dcddc3b6bcd2097384",
+    "native/include/opentune/analyzer.h": "b30d53e6ec455ee5e7fd039ba29b13eaa24b5206ef7c112ec56b78330488cdab",
+    "native/include/opentune/features.h": "50fb665511929097e3af3f79d0307936af4b343efda1e3d47305b994b9380f30",
+    "native/include/opentune/pitch_tracker.h": "3ec58b0babc8c2eea0d921686faec6e946c72700274c0ab06e32c8f43582dff6"
+  }
+}
