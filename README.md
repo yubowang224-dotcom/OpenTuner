@@ -10,7 +10,7 @@
 
 - **[下载 arm64-v8a APK（推荐普通 64 位 Android 手机使用）](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/OpenTuner-0.7.0-beta.2-arm64-v8a.apk)**
 - **[下载 universal 通用 APK（不确定架构时选此项）](https://github.com/yubowang224-dotcom/OpenTuner/releases/download/v0.7.0-beta.2/OpenTuner-0.7.0-beta.2-universal.apk)**
-  注：若此处链接无法下载，请上翻至 发行版 中下载软件
+- 注：若此处链接无法下载，请上翻至 发行版 中下载软件
 - armeabi-v7a 适用于相应 32 位设备，x86_64 适用于相应架构设备或模拟器；请在发布页选择对应 APK。
 - 已安装旧 Debug 测试版：**先不要卸载**。正式证书不同，不能直接覆盖；当前没有档案导出/导入入口。[安装指南](docs/install-release.zh-CN.md) · [迁移说明](docs/debug-to-release-migration.zh-CN.md)。
 
